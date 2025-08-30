@@ -17,7 +17,7 @@ function App() {
           <div className="row">
             {categories?.map((c) => (
               <div className="col-sm">
-                <Link to="/products">
+                <Link to="/products" state={{ selectedCategory: c.name }}>
                   <div
                     key={c._id}
                     className="card text-bg-dark border-0 rounded-0 mb-2"

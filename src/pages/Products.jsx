@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import Header from "../components/Header";
 import useFetch from "../useFetch";
 import ProductContext from "../contexts/ProductContext";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Products() {
   const {
@@ -17,7 +17,12 @@ export default function Products() {
     toggleItem,
   } = useContext(ProductContext);
 
-  const [filter, setFilter] = useState([]);
+  const location = useLocation();
+  const selectedCategory = location.state?.selectedCategory || null;
+
+  const [filter, setFilter] = useState(
+    selectedCategory ? [selectedCategory] : []
+  );
   const [sortPrice, setSortPrice] = useState(null);
   const [minRating, setMinRating] = useState(0);
 
