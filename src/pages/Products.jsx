@@ -187,7 +187,7 @@ export default function Products() {
                               : "btn-primary"
                           } rounded-0`}
                         >
-                          {cart.includes(p._id) ? "Add" : "Go"} to Cart
+                          {cart.includes(p._id) ? "Go" : "Add"} to Cart
                         </button>
                       </div>
                       {/* </Link> */}
