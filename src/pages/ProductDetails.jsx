@@ -170,9 +170,13 @@ export default function ProductDetails() {
                 </div>
                 <hr />
                 {/* Description */}
-                <div className="py-1 d-flex align-items-center gap-3">
+                <div className="py-1">
                   <p className="fs-6 fw-medium m-0">Description: </p>
-                  <p className="m-0">{description}</p>
+                  <ul>
+                    {description.map((d) => (
+                      <li className="m-0">{d}</li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>
