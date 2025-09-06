@@ -26,6 +26,7 @@ function App() {
                       src={c.image}
                       className="card-img"
                       alt="Category Image"
+                      loading="lazy"
                     />
                     <div className="card-img-overlay d-flex align-items-center justify-content-center p-0">
                       <h5 className="card-title w-100 text-center text-bg-dark fw-light bg-opacity-50 py-1">
@@ -43,6 +44,7 @@ function App() {
             src="/assets/banner-image.avif"
             alt="Banner"
             className="img-fluid"
+            loading="lazy"
           />
         </section>
       </main>

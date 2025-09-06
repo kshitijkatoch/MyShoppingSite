@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Header from "../components/Header";
 import ProductContext from "../contexts/ProductContext";
 import { Link, useLocation } from "react-router-dom";
@@ -22,6 +22,14 @@ export default function Products() {
   const [filter, setFilter] = useState(
     selectedCategory ? [selectedCategory] : []
   );
+
+  useEffect(() => {
+    if (selectedCategory) {
+      setFilter([selectedCategory]);
+      window.history.replaceState({}, document.title); // clears location.state
+    }
+  }, [selectedCategory]);
+
   const [sortPrice, setSortPrice] = useState(null);
   const [minRating, setMinRating] = useState(0);
 
@@ -159,6 +167,7 @@ export default function Products() {
                               src={p.image}
                               className="card-img-top"
                               alt="Product Image"
+                              loading="lazy"
                             />
 
                             <a
