@@ -1,6 +1,5 @@
 import { useState, useContext } from "react";
 import Header from "../components/Header";
-import useFetch from "../useFetch";
 import ProductContext from "../contexts/ProductContext";
 import { Link, useLocation } from "react-router-dom";
 
@@ -150,26 +149,29 @@ export default function Products() {
                 <div className="row">
                   {sortedProducts?.map((p) => (
                     <div className="col-md-3" key={p._id}>
-                      {/* <Link to="/products" className="text-decoration-none"> */}
                       <div className="card rounded-0 border-0 mt-4">
-                        <div className="position-relative">
-                          <img
-                            src={p.image}
-                            className="card-img-top"
-                            alt="Category Image"
-                          />
+                        <Link
+                          to={`/products/${p._id}`}
+                          className="text-decoration-none"
+                        >
+                          <div className="position-relative">
+                            <img
+                              src={p.image}
+                              className="card-img-top"
+                              alt="Product Image"
+                            />
 
-                          <a
-                            onClick={() => handleWishlist(p._id)}
-                            className={`bi ${
-                              wishlist.includes(p._id)
-                                ? "bi-heart-fill text-danger"
-                                : "bi-heart text-secondary"
-                            } y fs-4 position-absolute`}
-                            style={{ top: "15px", right: "15px" }}
-                          ></a>
-                          {/* <a className="bi bi-heart-fill text-danger fs-4"></a> */}
-                        </div>
+                            <a
+                              onClick={() => handleWishlist(p._id)}
+                              className={`bi ${
+                                wishlist.includes(p._id)
+                                  ? "bi-heart-fill text-danger"
+                                  : "bi-heart text-secondary"
+                              } y fs-4 position-absolute`}
+                              style={{ top: "15px", right: "15px" }}
+                            ></a>
+                          </div>
+                        </Link>
 
                         <div className="card-body py-2 border-top">
                           <p className="card-text text-center w-100 mb-2">
@@ -190,7 +192,6 @@ export default function Products() {
                           {cart.includes(p._id) ? "Go" : "Add"} to Cart
                         </button>
                       </div>
-                      {/* </Link> */}
                     </div>
                   ))}
                 </div>
