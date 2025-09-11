@@ -43,6 +43,8 @@ export default function ProductDetails() {
 
   const notify = () => toast("Pleasse Select Size first.", { theme: "dark" });
 
+  console.log(cart);
+
   return (
     <>
       <Header />
@@ -79,8 +81,9 @@ export default function ProductDetails() {
                     onClick={() => {
                       if (!selectedSize) {
                         notify();
+                        return;
                       }
-                      handleCart(product);
+                      handleCart({ ...product, selectedSize });
                     }}
                     className={`btn ${
                       inCart && selectedSize ? "btn-secondary" : "btn-primary"
@@ -88,7 +91,7 @@ export default function ProductDetails() {
                   >
                     {inCart && selectedSize ? "Go" : "Add"} to Cart
                   </button>
-                  <ToastContainer />
+                  <ToastContainer theme="dark" />
                 </div>
               </div>
             </div>
