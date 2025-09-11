@@ -1,6 +1,7 @@
 import Header from "./components/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import ProductContext from "./contexts/ProductContext";
 import { useContext } from "react";

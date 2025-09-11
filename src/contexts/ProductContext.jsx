@@ -19,9 +19,16 @@ export const ProductProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
 
-  const toggleItem = (list, setList, id) => {
+  // const toggleItem = (list, setList, id) => {
+  //   setList((p) =>
+  //     p.includes(id) ? p.filter((pid) => pid !== id) : [...p, id]
+  //   );
+  // };
+  const toggleItem = (list, setList, product) => {
     setList((p) =>
-      p.includes(id) ? p.filter((pid) => pid !== id) : [...p, id]
+      p.some((p) => p._id === product._id)
+        ? p.filter((p) => p._id !== product._id)
+        : [...p, product]
     );
   };
 

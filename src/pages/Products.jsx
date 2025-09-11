@@ -26,21 +26,16 @@ export default function Products() {
   useEffect(() => {
     if (selectedCategory) {
       setFilter([selectedCategory]);
-      window.history.replaceState({}, document.title); // clears location.state
+      window.history.replaceState({}, document.title);
     }
   }, [selectedCategory]);
 
   const [sortPrice, setSortPrice] = useState(null);
   const [minRating, setMinRating] = useState(0);
 
-  // const filteredProducts =
-  //   filter.length === 0 ? products : products.filter((p) => filter.includes(p.category))
-
   const filteredProducts = products
     .filter((p) => filter.length === 0 || filter.includes(p.category))
     .filter((p) => +p.rating >= minRating);
-
-  // const ratedProducts = filteredProducts.filter((p) => p.rating >= minRating);
 
   const sortedProducts = [...filteredProducts].sort((a, b) =>
     sortPrice === "lowToHigh"
@@ -84,7 +79,7 @@ export default function Products() {
                 </div>
                 <input
                   type="range"
-                  class="form-range"
+                  className="form-range"
                   min="0"
                   max="5"
                   value={minRating}
@@ -96,16 +91,19 @@ export default function Products() {
               <div className="py-3">
                 <h5 className="fw-bold">Categories</h5>
                 {categories.map((c) => (
-                  <div className="form-check">
+                  <div className="form-check" key={c._id}>
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       type="checkbox"
                       value={c.name}
                       id={`${c.name}Checkbox`}
                       checked={filter.includes(c.name)}
                       onChange={() => toggleItem(filter, setFilter, c.name)}
                     />
-                    <label class="form-check-label" for={`${c.name}Checkbox`}>
+                    <label
+                      className="form-check-label"
+                      htmlFor={`${c.name}Checkbox`}
+                    >
                       {c.name} clothings
                     </label>
                   </div>
@@ -114,29 +112,29 @@ export default function Products() {
               {/* Sort By */}
               <div className="py-3">
                 <h5 className="fw-bold">Sort By Price</h5>
-                <div class="form-check">
+                <div className="form-check">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="radio"
                     name="radioPrice"
                     id="lowToHigh"
                     checked={sortPrice === "lowToHigh"}
                     onChange={() => setSortPrice("lowToHigh")}
                   />
-                  <label class="form-check-label" for="lowToHigh">
+                  <label className="form-check-label" htmlFor="lowToHigh">
                     Low to high
                   </label>
                 </div>
-                <div class="form-check">
+                <div className="form-check">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="radio"
                     name="radioPrice"
                     id="highToLow"
                     checked={sortPrice === "highToLow"}
                     onChange={() => setSortPrice("highToLow")}
                   />
-                  <label class="form-check-label" for="highToLow">
+                  <label className="form-check-label" htmlFor="highToLow">
                     High to low
                   </label>
                 </div>
@@ -158,29 +156,29 @@ export default function Products() {
                   {sortedProducts?.map((p) => (
                     <div className="col-md-3" key={p._id}>
                       <div className="card rounded-0 border-0 mt-4">
-                        <Link
-                          to={`/products/${p._id}`}
-                          className="text-decoration-none"
-                        >
-                          <div className="position-relative">
+                        <div className="position-relative">
+                          <Link
+                            to={`/products/${p._id}`}
+                            className="text-decoration-none"
+                          >
                             <img
                               src={p.image}
                               className="card-img-top"
                               alt="Product Image"
                               loading="lazy"
                             />
+                          </Link>
 
-                            <a
-                              onClick={() => handleWishlist(p._id)}
-                              className={`bi ${
-                                wishlist.includes(p._id)
-                                  ? "bi-heart-fill text-danger"
-                                  : "bi-heart text-secondary"
-                              } y fs-4 position-absolute`}
-                              style={{ top: "15px", right: "15px" }}
-                            ></a>
-                          </div>
-                        </Link>
+                          <i
+                            onClick={() => handleWishlist(p)}
+                            className={`bi ${
+                              wishlist.includes(p)
+                                ? "bi-heart-fill text-danger"
+                                : "bi-heart text-secondary"
+                            } y fs-4 position-absolute`}
+                            style={{ top: "15px", right: "15px" }}
+                          ></i>
+                        </div>
 
                         <div className="card-body py-2 border-top">
                           <p className="card-text text-center w-100 mb-2">
@@ -191,11 +189,9 @@ export default function Products() {
                           </h5>
                         </div>
                         <button
-                          onClick={() => handleCart(p._id)}
+                          onClick={() => handleCart(p)}
                           className={`btn ${
-                            cart.includes(p._id)
-                              ? "btn-secondary"
-                              : "btn-primary"
+                            cart.includes(p) ? "btn-secondary" : "btn-primary"
                           } rounded-0`}
                         >
                           {cart.includes(p._id) ? "Go" : "Add"} to Cart

@@ -2,10 +2,13 @@ import { useParams } from "react-router-dom";
 import { useContext, useState } from "react";
 import Header from "../components/Header";
 import ProductContext from "../contexts/ProductContext";
+import { ToastContainer, toast } from "react-toastify";
+
 export default function ProductDetails() {
   const { products, cart, wishlist, handleWishlist, handleCart } =
     useContext(ProductContext);
   const [quantity, setQuantity] = useState(0);
+  const [selectedSize, setSelectedSize] = useState(null);
 
   const { id: productID } = useParams();
   const product = products.find((p) => p._id === productID);
@@ -34,8 +37,11 @@ export default function ProductDetails() {
     size,
     description,
   } = product;
-  const inCart = cart.includes(_id);
-  const inWishlist = wishlist.includes(_id);
+
+  const inCart = cart.some((p) => p._id === _id);
+  const inWishlist = wishlist.some((p) => p._id === _id);
+
+  const notify = () => toast("Pleasse Select Size first.", { theme: "dark" });
 
   return (
     <>
@@ -54,9 +60,8 @@ export default function ProductDetails() {
                       className="card-img-top"
                       alt="Product Image"
                     />
-
                     <a
-                      onClick={() => handleWishlist(_id)}
+                      onClick={() => handleWishlist(product)}
                       className={`bi ${
                         inWishlist
                           ? "bi-heart-fill text-danger"
@@ -71,13 +76,19 @@ export default function ProductDetails() {
                   </button>
 
                   <button
-                    onClick={() => handleCart(_id)}
+                    onClick={() => {
+                      if (!selectedSize) {
+                        notify();
+                      }
+                      handleCart(product);
+                    }}
                     className={`btn ${
-                      inCart ? "btn-secondary" : "btn-primary"
+                      inCart && selectedSize ? "btn-secondary" : "btn-primary"
                     } rounded-0 my-3`}
                   >
-                    {inCart ? "Go" : "Add"} to Cart
+                    {inCart && selectedSize ? "Go" : "Add"} to Cart
                   </button>
+                  <ToastContainer />
                 </div>
               </div>
             </div>
@@ -111,9 +122,9 @@ export default function ProductDetails() {
                 {/* Quantity */}
                 <div className="py-1 d-flex align-items-center gap-3">
                   <p className="fs-6 fw-medium">Quantity: </p>
-                  <div class="input-group mb-3 w-25">
+                  <div className="input-group mb-3 w-25">
                     <button
-                      class="btn btn-outline-secondary rounded-0"
+                      className="btn btn-outline-secondary rounded-0"
                       type="button"
                       id="quantityMinus"
                       onClick={() => setQuantity(quantity - 1)}
@@ -123,7 +134,7 @@ export default function ProductDetails() {
                     </button>
                     <input
                       type="number"
-                      class="form-control text-center"
+                      className="form-control text-center"
                       value={quantity}
                       min={0}
                       max={10}
@@ -135,7 +146,7 @@ export default function ProductDetails() {
                       }}
                     />
                     <button
-                      class="btn btn-outline-secondary rounded-0"
+                      className="btn btn-outline-secondary rounded-0"
                       type="button"
                       id="quantityPlus"
                       onClick={() => setQuantity(quantity + 1)}
@@ -148,23 +159,24 @@ export default function ProductDetails() {
                 {/* Size */}
                 <div className="py-1 d-flex align-items-center gap-3">
                   <p className="fs-6 fw-medium m-0">Size: </p>
-                  <div class="btn-group">
+                  <div className="btn-group">
                     {size.map((s) => (
-                      <>
+                      <div key={s + "size"}>
                         <input
                           type="radio"
-                          class="btn-check"
+                          className="btn-check"
                           name="size"
                           id={s + "-size"}
+                          onChange={() => setSelectedSize(s)}
                         />
 
                         <label
-                          class="btn btn-outline-secondary rounded-0 me-2"
-                          for={s + "-size"}
+                          className="btn btn-outline-secondary rounded-0 me-2"
+                          htmlFor={s + "-size"}
                         >
                           {s}
                         </label>
-                      </>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -173,8 +185,10 @@ export default function ProductDetails() {
                 <div className="py-1">
                   <p className="fs-6 fw-medium m-0">Description: </p>
                   <ul>
-                    {description.map((d) => (
-                      <li className="m-0">{d}</li>
+                    {description.map((d, i) => (
+                      <li className="m-0" key={i}>
+                        {d}
+                      </li>
                     ))}
                   </ul>
                 </div>
