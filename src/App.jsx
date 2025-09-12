@@ -17,7 +17,7 @@ function App() {
           {loading && <p>Loading...</p>}
           <div className="row">
             {categories?.map((c) => (
-              <div className="col-sm">
+              <div className="col-sm" key={c._id}>
                 <Link to="/products" state={{ selectedCategory: c.name }}>
                   <div
                     key={c._id}

@@ -25,22 +25,26 @@ export default function Header() {
 
           <div className="d-flex align-items-center">
             <button className="btn btn-secondary rounded-0 px-4">Login</button>
-            <a className="bi bi-heart text-secondary fs-4 ps-4 m-0 position-relative">
-              <span
-                className="position-absolute start-100 translate-middle badge rounded-pill bg-danger"
-                style={{ fontSize: "0.7rem", top: "20%" }}
-              >
-                {wishlist.length}
-              </span>
-            </a>
-            <a className="bi bi-cart text-secondary fs-4 ps-4 m-0 position-relative">
-              <span
-                className="position-absolute start-100 translate-middle badge rounded-pill bg-danger"
-                style={{ fontSize: "0.7rem", top: "20%" }}
-              >
-                {cart.length}
-              </span>
-            </a>
+            <NavLink to={"/wishlist"} className="text-decoration-none">
+              <a className="bi bi-heart text-secondary fs-4 ps-4 m-0 position-relative">
+                <span
+                  className="position-absolute start-100 translate-middle badge rounded-pill bg-danger"
+                  style={{ fontSize: "0.7rem", top: "20%" }}
+                >
+                  {wishlist.length}
+                </span>
+              </a>
+            </NavLink>
+            <NavLink to={"/cart"} className="text-decoration-none">
+              <a className="bi bi-cart text-secondary fs-4 ps-4 m-0 position-relative">
+                <span
+                  className="position-absolute start-100 translate-middle badge rounded-pill bg-danger"
+                  style={{ fontSize: "0.7rem", top: "20%" }}
+                >
+                  {cart.length}
+                </span>
+              </a>
+            </NavLink>
           </div>
         </div>
       </nav>
