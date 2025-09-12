@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useState } from "react";
 import Header from "../components/Header";
 import ProductContext from "../contexts/ProductContext";
@@ -9,6 +9,7 @@ export default function ProductDetails() {
     useContext(ProductContext);
   const [quantity, setQuantity] = useState(0);
   const [selectedSize, setSelectedSize] = useState(null);
+  const navigate = useNavigate();
 
   const { id: productID } = useParams();
   const product = products.find((p) => p._id === productID);
@@ -62,7 +63,7 @@ export default function ProductDetails() {
                       className="card-img-top"
                       alt="Product Image"
                     />
-                    <a
+                    <i
                       onClick={() => handleWishlist(product)}
                       className={`bi ${
                         inWishlist
@@ -70,7 +71,7 @@ export default function ProductDetails() {
                           : "bi-heart text-secondary"
                       } fs-4 position-absolute`}
                       style={{ top: "15px", right: "15px" }}
-                    ></a>
+                    ></i>
                   </div>
 
                   <button className="btn btn-primary rounded-0 mt-3">
@@ -79,17 +80,22 @@ export default function ProductDetails() {
 
                   <button
                     onClick={() => {
+                      if (inCart) {
+                        navigate("/cart");
+                        return;
+                      }
+
                       if (!selectedSize) {
                         notify();
                         return;
                       }
-                      handleCart({ ...product, selectedSize });
+                      handleCart({ ...product, selectedSize, quantity });
                     }}
                     className={`btn ${
-                      inCart && selectedSize ? "btn-secondary" : "btn-primary"
+                      inCart ? "btn-secondary" : "btn-primary"
                     } rounded-0 my-3`}
                   >
-                    {inCart && selectedSize ? "Go" : "Add"} to Cart
+                    {inCart ? "Go" : "Add"} to Cart
                   </button>
                   <ToastContainer theme="dark" />
                 </div>
