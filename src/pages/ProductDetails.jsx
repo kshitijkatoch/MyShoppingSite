@@ -44,6 +44,8 @@ export default function ProductDetails() {
 
   const notify = () => toast("Pleasse Select Size first.", { theme: "dark" });
 
+  console.log(cart);
+
   return (
     <>
       <Header />
@@ -85,12 +87,10 @@ export default function ProductDetails() {
 
                       if (!selectedSize) {
                         notify();
+                        return;
                       }
-<<<<<<< HEAD
-                      handleCart(product);
-=======
+
                       handleCart({ ...product, selectedSize, quantity });
->>>>>>> d5caca4 (Fixed: Select size issue in products, Added: Cart and wishlist pages.)
                     }}
                     className={`btn ${
                       inCart ? "btn-secondary" : "btn-primary"
@@ -98,7 +98,7 @@ export default function ProductDetails() {
                   >
                     {inCart ? "Go" : "Add"} to Cart
                   </button>
-                  <ToastContainer />
+                  <ToastContainer theme="dark" />
                 </div>
               </div>
             </div>
