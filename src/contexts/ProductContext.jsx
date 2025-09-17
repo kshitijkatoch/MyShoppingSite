@@ -18,17 +18,21 @@ export const ProductProvider = ({ children }) => {
 
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
+  const [quantity, setQuantity] = useState(1);
 
-  // const toggleItem = (list, setList, id) => {
-  //   setList((p) =>
-  //     p.includes(id) ? p.filter((pid) => pid !== id) : [...p, id]
-  //   );
-  // };
   const toggleItem = (list, setList, product) => {
     setList((p) =>
       p.some((p) => p._id === product._id)
         ? p.filter((p) => p._id !== product._id)
         : [...p, product]
+    );
+  };
+
+  const updateQuantity = (id, newQuantity) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item._id === id ? { ...item, quantity: newQuantity } : item
+      )
     );
   };
 
@@ -38,12 +42,16 @@ export const ProductProvider = ({ children }) => {
         products,
         categories,
         cart,
+        setCart,
         wishlist,
         loading: lp || lc,
         error: ep || ec,
         handleCart: (id) => toggleItem(cart, setCart, id),
         handleWishlist: (id) => toggleItem(wishlist, setWishlist, id),
         toggleItem,
+        quantity,
+        setQuantity,
+        updateQuantity,
       }}
     >
       {children}

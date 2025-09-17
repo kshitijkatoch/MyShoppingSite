@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import ProductContext from "../contexts/ProductContext";
 
 export default function Wishlist() {
-  const { cart, wishlist, handleCart, handleWishlist } =
+  const { cart, wishlist, handleCart, handleWishlist, quantity } =
     useContext(ProductContext);
 
   const [showDialog, setShowDialog] = useState(false);
@@ -141,7 +141,11 @@ export default function Wishlist() {
                     className="btn btn-primary"
                     disabled={!selectedSize}
                     onClick={() => {
-                      handleCart({ ...selectedProduct, selectedSize });
+                      handleCart({
+                        ...selectedProduct,
+                        selectedSize,
+                        quantity,
+                      });
                       setShowDialog(false);
                       setSelectedSize("");
                     }}

@@ -19,6 +19,7 @@ export default function Products() {
   const [showDialog, setShowDialog] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
   const location = useLocation();
   const selectedCategory = location.state?.selectedCategory || null;
@@ -202,7 +203,6 @@ export default function Products() {
                           </div>
                           <button
                             onClick={() => {
-                              // inCart ? navigate("/cart") : handleCart(p)
                               if (inCart) {
                                 navigate("/cart");
                               } else {
@@ -271,7 +271,11 @@ export default function Products() {
                     className="btn btn-primary"
                     disabled={!selectedSize}
                     onClick={() => {
-                      handleCart({ ...selectedProduct, selectedSize });
+                      handleCart({
+                        ...selectedProduct,
+                        selectedSize,
+                        quantity,
+                      });
                       setShowDialog(false);
                       setSelectedSize("");
                     }}

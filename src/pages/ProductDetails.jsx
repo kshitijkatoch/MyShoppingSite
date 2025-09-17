@@ -5,10 +5,17 @@ import ProductContext from "../contexts/ProductContext";
 import { ToastContainer, toast } from "react-toastify";
 
 export default function ProductDetails() {
-  const { products, cart, wishlist, handleWishlist, handleCart } =
-    useContext(ProductContext);
-  const [quantity, setQuantity] = useState(0);
+  const {
+    products,
+    cart,
+    wishlist,
+    handleWishlist,
+    handleCart,
+    updateQuantity,
+  } = useContext(ProductContext);
+
   const [selectedSize, setSelectedSize] = useState(null);
+  const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
 
   const { id: productID } = useParams();
@@ -43,8 +50,6 @@ export default function ProductDetails() {
   const inWishlist = wishlist.some((p) => p._id === _id);
 
   const notify = () => toast("Pleasse Select Size first.", { theme: "dark" });
-
-  console.log(cart);
 
   return (
     <>
@@ -90,7 +95,11 @@ export default function ProductDetails() {
                         return;
                       }
 
-                      handleCart({ ...product, selectedSize, quantity });
+                      handleCart({
+                        ...product,
+                        selectedSize,
+                        quantity,
+                      });
                     }}
                     className={`btn ${
                       inCart ? "btn-secondary" : "btn-primary"
@@ -122,6 +131,7 @@ export default function ProductDetails() {
                     ))}
                   </div>
                 </div>
+                {/* Price */}
                 <h3 className="h3 fw-bold py-1">
                   ₹{price}{" "}
                   <span className="opacity-50 h5 fw-normal text-decoration-line-through">
@@ -138,7 +148,7 @@ export default function ProductDetails() {
                       type="button"
                       id="quantityMinus"
                       onClick={() => setQuantity(quantity - 1)}
-                      disabled={quantity <= 0}
+                      disabled={quantity <= 1}
                     >
                       -
                     </button>
@@ -146,11 +156,11 @@ export default function ProductDetails() {
                       type="number"
                       className="form-control text-center"
                       value={quantity}
-                      min={0}
+                      min={1}
                       max={10}
                       onChange={(e) => {
                         let val = Number(e.target.value);
-                        if (val < 0) val = 0;
+                        if (val < 1) val = 1;
                         if (val > 10) val = 10;
                         setQuantity(val);
                       }}
